@@ -6,7 +6,7 @@ class Mutations::Lesson::CreateLesson < Mutations::BaseMutation
 
   def resolve
     position = (::Level.maximum(:position) || 0) + 1
-    title = "Lesson #{number}"
+    title = "Lesson #{position}"
 
     new_lesson = ::Lesson.create(title: title, category: ::Category.first, level: ::Level.first, chapter: ::Chapter.first)
     {

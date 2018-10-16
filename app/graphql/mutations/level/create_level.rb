@@ -6,7 +6,7 @@ class Mutations::Level::CreateLevel < Mutations::BaseMutation
 
   def resolve
     position = (::Level.maximum(:position) || 0) + 1
-    title = "Level #{number}"
+    title = "Level #{position}"
 
     new_level = ::Level.create(title: title, position: position)
     {

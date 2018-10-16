@@ -6,7 +6,7 @@ class Mutations::Category::CreateCategory < Mutations::BaseMutation
 
   def resolve
     position = (::Category.maximum(:position) || 0) + 1
-    title = "Category #{number}"
+    title = "Category #{position}"
 
     new_category = ::Category.create(title: title, position: position)
     {

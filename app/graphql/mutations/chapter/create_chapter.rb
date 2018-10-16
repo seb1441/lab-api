@@ -6,7 +6,7 @@ class Mutations::Chapter::CreateChapter < Mutations::BaseMutation
 
   def resolve
     position = (::Chapter.maximum(:position) || 0) + 1
-    title = "Chapter #{number}"
+    title = "Chapter #{position}"
 
     new_chapter = ::Chapter.create(title: title, position: position)
     {
