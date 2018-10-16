@@ -1,11 +1,46 @@
 class Types::QueryType < Types::BaseObject
-  # Add root-level fields here.
-  # They will be entry points for queries on your schema.
+  class LessonFiltersInput < Types::BaseInputObject
+    argument :category_id, ID, required: false
+    argument :level_id, ID, required: false
+    argument :chapter_id, ID, required: false
+  end
 
-  # TODO: remove me
-  field :test_field, String, null: false,
-    description: "An example field added by the generator"
-  def test_field
-    "Hello ssWorld!"
+  field :categories, [Types::CategoryType], null: true
+  field :levels, [Types::LevelType], null: true
+  field :chapters, [Types::ChapterType], null: true
+
+  field :lessons, [Types::LessonType], null: true do
+    argument :filters, LessonFiltersInput, required: false
+  end
+  field :lesson, Types::LessonType, null: true do
+    argument :id, ID, required: true
+  end
+
+  def categories
+    Category.all
+  end
+
+  def levels
+    Level.all
+  end
+
+  def chapters
+    Chapter.all
+  end
+
+  def lesson(id:)
+    Lesson.find_by(id: id)
+  end
+  def lessons(filters: nil)
+    if filters
+      attrs = {}
+      attrs[:category_id] = filters.category_id if filters.category_id
+      attrs[:level_id] = filters.level_id if filters.level_id
+      attrs[:chapter_id] = filters.chapter_id if filters.chapter_id
+
+      Lesson.where(attrs)
+    else
+      Lesson.all
+    end
   end
 end

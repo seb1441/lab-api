@@ -10,10 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_012624) do
+ActiveRecord::Schema.define(version: 2018_10_15_014957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "category_id"
+    t.bigint "level_id"
+    t.bigint "chapter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_lessons_on_category_id"
+    t.index ["chapter_id"], name: "index_lessons_on_chapter_id"
+    t.index ["level_id"], name: "index_lessons_on_level_id"
+  end
+
+  create_table "levels", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -24,4 +61,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_012624) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "lessons", "categories"
+  add_foreign_key "lessons", "chapters"
+  add_foreign_key "lessons", "levels"
 end
