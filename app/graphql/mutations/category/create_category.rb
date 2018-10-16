@@ -5,8 +5,8 @@ class Mutations::Category::CreateCategory < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
-    title = "Category #{::Category.count + 1}"
-    position = ::Category.maximum(:position) + 1
+    position = (::Category.maximum(:position) || 0) + 1
+    title = "Category #{number}"
 
     new_category = ::Category.create(title: title, position: position)
     {

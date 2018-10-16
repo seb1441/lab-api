@@ -5,7 +5,8 @@ class Mutations::Lesson::CreateLesson < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
-    title = "Lesson #{::Lesson.count + 1}"
+    position = (::Level.maximum(:position) || 0) + 1
+    title = "Lesson #{number}"
 
     new_lesson = ::Lesson.create(title: title, category: ::Category.first, level: ::Level.first, chapter: ::Chapter.first)
     {

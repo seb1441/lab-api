@@ -5,8 +5,8 @@ class Mutations::Chapter::CreateChapter < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
-    title = "Chapter #{::Chapter.count + 1}"
     position = (::Chapter.maximum(:position) || 0) + 1
+    title = "Chapter #{number}"
 
     new_chapter = ::Chapter.create(title: title, position: position)
     {

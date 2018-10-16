@@ -5,8 +5,8 @@ class Mutations::Level::CreateLevel < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
-    title = "Level #{::Level.count + 1}"
-    position = ::Level.maximum(:position) + 1
+    position = (::Level.maximum(:position) || 0) + 1
+    title = "Level #{number}"
 
     new_level = ::Level.create(title: title, position: position)
     {
