@@ -5,8 +5,12 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
     }
+    if auth = request.headers["authorization"]
+      if auth.starts_with?("Bearer ")
+        context[:current_user] = AuthToken.verify(request.headers['authorization'].sub("Bearer ", "")) 
+      end
+    end
     result = LabApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e

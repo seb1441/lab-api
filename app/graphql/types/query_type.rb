@@ -43,4 +43,9 @@ class Types::QueryType < Types::BaseObject
       Lesson.all
     end
   end
+  
+  field :current_user, Types::UserType, null: true
+  def current_user
+    context[:current_user]
+  end
 end
