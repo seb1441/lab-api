@@ -5,6 +5,8 @@ class Mutations::Chapter::CreateChapter < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     position = (::Chapter.maximum(:position) || 0) + 1
     title = "Chapter #{position}"
 

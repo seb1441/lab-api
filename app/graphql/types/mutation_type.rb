@@ -6,7 +6,7 @@ class Types::MutationType < Types::BaseObject
   def sign_in_user(email:, password:)
     user = User.find_by(email: email)
     unless user && user.authenticate(password)
-      raise GraphQL::ExecutionError, 'The email address or password you entered was incorrect.'
+      raise GraphQL::ExecutionError, "The email address or password you entered was incorrect."
     end
 
     {

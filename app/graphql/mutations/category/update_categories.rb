@@ -14,6 +14,8 @@ class Mutations::Category::UpdateCategories < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(categories:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     updated_categories = []
 
     categories.each do |category|

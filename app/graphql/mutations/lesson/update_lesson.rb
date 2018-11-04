@@ -12,6 +12,8 @@ class Mutations::Lesson::UpdateLesson < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(id:, category_id:, level_id:, chapter_id:, title: nil, description: nil)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     lesson = ::Lesson.find_by(id: id)
     errors = []
 

@@ -7,6 +7,8 @@ class Mutations::Lesson::DestroyLesson < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(id:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     errors = []
 
     lesson_destroyed = ::Lesson.find_by(id: id)

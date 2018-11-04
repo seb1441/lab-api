@@ -14,6 +14,8 @@ class Mutations::Level::UpdateLevels < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(levels:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     updated_levels = []
 
     levels.each do |level|

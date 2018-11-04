@@ -5,6 +5,8 @@ class Mutations::Lesson::CreateLesson < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     position = ::Lesson.count + 1
     title = "Lesson #{position}"
 

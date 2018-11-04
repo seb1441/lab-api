@@ -17,21 +17,31 @@ class Types::QueryType < Types::BaseObject
   end
 
   def categories
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     Category.all
   end
 
   def levels
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     Level.all
   end
 
   def chapters
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     Chapter.all
   end
 
   def lesson(id:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     Lesson.find_by(id: id)
   end
   def lessons(filters: nil)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     if filters
       attrs = {}
       attrs[:category_id] = filters.category_id if filters.category_id

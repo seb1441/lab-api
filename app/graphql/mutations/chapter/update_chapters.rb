@@ -14,6 +14,8 @@ class Mutations::Chapter::UpdateChapters < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(chapters:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     updated_chapters = []
 
     chapters.each do |chapter|

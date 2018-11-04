@@ -7,6 +7,8 @@ class Mutations::Level::DestroyLevel < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(id:)
+    raise GraphQL::ExecutionError, "Unauthorized" unless Utils::General.authorized_yuki(context[:current_user])
+
     errors = []
 
     level_destroyed = ::Level.find_by(id: id)
